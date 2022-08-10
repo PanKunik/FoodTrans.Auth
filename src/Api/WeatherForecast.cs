@@ -1,4 +1,4 @@
-namespace FoodTrans.Auth;
+namespace Api;
 
 public class WeatherForecast
 {

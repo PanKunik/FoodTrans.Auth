@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace FoodTrans.Auth.Controllers;
+namespace Api.Controllers;
 
 [ApiController]
 [Route("[controller]")]
