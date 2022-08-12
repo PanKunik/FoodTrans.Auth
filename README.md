@@ -29,7 +29,7 @@ docker build -t foodtrans.auth:latest .
 If build succedded, you can run the image with:
 
 ```powershell
-docker run -d -p 8080:80 foodtrans.auth:latest
+docker run -d -p <port>:80 foodtrans.auth:latest
 ```
 
 Open your browser and go under the address `http://localhost:8080` to communicate with the API.
