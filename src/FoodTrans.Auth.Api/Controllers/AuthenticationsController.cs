@@ -1,5 +1,6 @@
 using FoodTrans.Auth.Application.Users.Commands;
 using FoodTrans.Auth.Controllers.Common;
+using FoodTrans.Auth.Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using static Microsoft.AspNetCore.Http.StatusCodes;
@@ -17,7 +18,7 @@ public class AuthenticationsController : ApiController
     }
 
     [HttpPost("register")]
-    [ProducesResponseType(typeof(NoContentResult), Status204NoContent)]
+    [ProducesResponseType(typeof(User), Status201Created)]
     public async Task<IActionResult> Register(RegisterCommand command)
     {
         var result = await _mediator.Send(command);
