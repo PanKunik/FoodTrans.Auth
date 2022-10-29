@@ -38,7 +38,7 @@ public sealed class Password
             errors.Add(Errors.Auth.PasswordWithoutDigit);
         }
 
-        if(!password.Any(x => char.IsSymbol(x)))
+        if(password.All(x => char.IsLetterOrDigit(x)))
         {
             errors.Add(Errors.Auth.PasswordWithoutSpecialCharacter);
         }
