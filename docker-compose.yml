@@ -1,9 +1,12 @@
 version: "3.9"
 services:
   web:
+    build: .
     image: foodtrans-auth:1.1
     ports:
       - "8088:80"
+    environment:
+      CONNECTIONSTRINGS__FOODTRANSAUTHDB: Host=foodtransauth-postgres-db-1;Database=kunik-db;Username=kunik;Password=password;Port=5432
     depends_on:
       - postgres-db
 
