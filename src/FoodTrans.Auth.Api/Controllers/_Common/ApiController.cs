@@ -1,5 +1,6 @@
 using ErrorOr;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace FoodTrans.Auth.Controllers.Common;
 
@@ -11,6 +12,24 @@ public class ApiController : ControllerBase
     protected IActionResult Problem(List<Error> errors)
     {
         HttpContext.Items[Errors] = errors;
+
+        if(errors.All(error => error.Type == ErrorType.Validation))
+        {
+            var modelStateDictionary = new ModelStateDictionary();
+
+            foreach(var error in errors)
+            {
+                modelStateDictionary.AddModelError(error.Code, error.Description);
+            }
+
+            return ValidationProblem(modelStateDictionary);
+        }
+
+        if(errors.Any(error => error.Type == ErrorType.Unexpected))
+        {
+            var error = errors.First(x => x.Type == ErrorType.Unexpected);
+            return Problem(statusCode: 500, title: error.Description);
+        }
 
         var firstError = errors[0];
 

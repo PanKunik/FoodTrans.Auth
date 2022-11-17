@@ -1,9 +1,10 @@
+using Domain.Common.Models;
 using ErrorOr;
-using FoodTrans.Auth.Domain.Entities.Common.Errors;
+using Domain.Common.Errors;
 
-namespace FoodTrans.Auth.Domain.ValueObjects;
+namespace Domain.User.ValueObjects;
 
-public sealed class FirstName
+public sealed class FirstName : ValueObject
 {
     public string Value { get; private set; }
 
@@ -18,21 +19,26 @@ public sealed class FirstName
     {
         var errors = new List<Error>();
 
-        if(string.IsNullOrWhiteSpace(firstName))
+        if (string.IsNullOrWhiteSpace(firstName))
         {
             errors.Add(Errors.Auth.EmptyFirstName);
         }
 
-        if(firstName.Length < 3 || firstName.Length > 30)
+        if (firstName.Length < 3 || firstName.Length > 30)
         {
             errors.Add(Errors.Auth.InvalidFirstNameLength);
         }
 
-        if(errors.Count > 0)
+        if (errors.Count > 0)
         {
             return errors;
         }
 
         return new FirstName(firstName);
+    }
+
+    public override IEnumerable<object> GetEqualityComponents()
+    {
+        yield return Value;
     }
 }

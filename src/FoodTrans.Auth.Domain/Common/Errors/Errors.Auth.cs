@@ -1,6 +1,6 @@
 using ErrorOr;
 
-namespace FoodTrans.Auth.Domain.Entities.Common.Errors;
+namespace Domain.Common.Errors;
 
 public static partial class Errors
 {

@@ -1,9 +1,10 @@
+using Domain.Common.Models;
 using ErrorOr;
-using FoodTrans.Auth.Domain.Entities.Common.Errors;
+using Domain.Common.Errors;
 
-namespace FoodTrans.Auth.Domain.ValueObjects;
+namespace Domain.User.ValueObjects;
 
-public sealed class Password
+public sealed class Password : ValueObject
 {
     public string Value { get; private set; }
 
@@ -18,36 +19,41 @@ public sealed class Password
     {
         var errors = new List<Error>();
 
-        if(string.IsNullOrWhiteSpace(password))
+        if (string.IsNullOrWhiteSpace(password))
         {
             errors.Add(Errors.Auth.EmptyPassword);
         }
 
-        if(password.Length < 8 || password.Length > 20)
+        if (password.Length < 8 || password.Length > 20)
         {
             errors.Add(Errors.Auth.InvalidPasswordLength);
         }
 
-        if(!password.Any(x => char.IsUpper(x)))
+        if (!password.Any(x => char.IsUpper(x)))
         {
             errors.Add(Errors.Auth.PasswordWithoutUpperCaseLetter);
         }
 
-        if(!password.Any(x => char.IsDigit(x)))
+        if (!password.Any(x => char.IsDigit(x)))
         {
             errors.Add(Errors.Auth.PasswordWithoutDigit);
         }
 
-        if(password.All(x => char.IsLetterOrDigit(x)))
+        if (password.All(x => char.IsLetterOrDigit(x)))
         {
             errors.Add(Errors.Auth.PasswordWithoutSpecialCharacter);
         }
 
-        if(errors.Count > 0)
+        if (errors.Count > 0)
         {
             return errors;
         }
 
         return new Password(password);
+    }
+
+    public override IEnumerable<object> GetEqualityComponents()
+    {
+        yield return Value;
     }
 }
