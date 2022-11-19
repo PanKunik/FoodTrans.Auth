@@ -4,27 +4,23 @@ using Domain.Common.Errors;
 
 namespace Domain.User.ValueObjects;
 
-public sealed class Email : ValueObject
+public sealed class BlockadeReason : ValueObject
 {
     public string Value { get; }
 
-    private Email() { }
-
-    private Email(string value)
+    private BlockadeReason(string value)
     {
         Value = value;
     }
 
-    public static ErrorOr<Email> Create(string email)
+    public static ErrorOr<BlockadeReason> Create(string value)
     {
-        // TODO: Check regex
-
-        if (string.IsNullOrWhiteSpace(email))
+        if (string.IsNullOrWhiteSpace(value))
         {
-            return Errors.Auth.EmptyEmail;
+            return Errors.Blockade.BlockadeReasonEmpty;
         }
 
-        return new Email(email);
+        return new BlockadeReason(value);
     }
 
     public override IEnumerable<object> GetEqualityComponents()

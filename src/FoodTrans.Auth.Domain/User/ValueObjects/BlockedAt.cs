@@ -2,17 +2,19 @@ using Domain.Common.Models;
 
 namespace Domain.User.ValueObjects;
 
-public sealed class UserId : ValueObject
+public sealed class BlockedAt : ValueObject
 {
-    public Guid Value { get;}
+    public DateTime Value { get; }
 
-    private UserId(Guid value)
+    private BlockedAt(DateTime value)
     {
         Value = value;
     }
 
-    public static UserId CreateUnique()
-        => new(Guid.NewGuid());
+    public static BlockedAt Create(DateTime value)
+    {
+        return new(value);
+    }
 
     public override IEnumerable<object> GetEqualityComponents()
     {

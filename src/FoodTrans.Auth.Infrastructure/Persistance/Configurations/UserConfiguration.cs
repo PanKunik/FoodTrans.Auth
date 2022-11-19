@@ -14,7 +14,7 @@ internal sealed class UserConfiguration : IEntityTypeConfiguration<User>
 
         builder
             .Property(x => x.Id)
-            .HasConversion(x => x.Value, x => UserId.CreateUnique().Value);
+            .HasConversion(x => x.Value, x => UserId.CreateUnique());
 
         builder
             .HasIndex(x => x.Email)
@@ -52,6 +52,13 @@ internal sealed class UserConfiguration : IEntityTypeConfiguration<User>
             .HasConversion(x => x.Value, x => LastName.Create(x).Value)
             .IsRequired()
             .HasMaxLength(50);
+
+        builder
+            .Property(x => x.Active)
+            .IsRequired();
+
+        builder
+            .Property(x => x.LastLogin);
 
         builder
             .Property(x => x.CreatedAt)

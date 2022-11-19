@@ -1,4 +1,6 @@
 using Domain.Common.Models;
+using Domain.Common.ValueObjects;
+using Domain.User.Entities;
 using Domain.User.ValueObjects;
 using ErrorOr;
 
@@ -11,6 +13,9 @@ public sealed class User : AggregateRoot<UserId>
     public FirstName FirstName { get; }
     public LastName LastName { get; }
     public Password Password { get; }
+    public Active Active { get; }
+    public LastLogin LastLogin { get; }
+    public Blockade Blockade { get; } // TODO: Wydzielić AggregateRoot - Odwołać się po id?
 
     private User(
         UserId id,
@@ -19,10 +24,12 @@ public sealed class User : AggregateRoot<UserId>
         FirstName firstName,
         LastName lastName,
         Password password,
+        Active active,
+        LastLogin lastLogin,
         DateTime createdAt,
-        Guid createdBy,
+        UserId createdBy,
         DateTime? lastModificationDate,
-        Guid? lastModifiedBy)
+        UserId? lastModifiedBy)
     : base(id)
     {
         Email = email;
@@ -30,6 +37,8 @@ public sealed class User : AggregateRoot<UserId>
         FirstName = firstName;
         LastName = lastName;
         Password = password;
+        Active = active;
+        LastLogin = lastLogin;
         CreatedAt = createdAt;
         CreatedBy = createdBy;
         LastModificationDate = lastModificationDate;
@@ -50,9 +59,14 @@ public sealed class User : AggregateRoot<UserId>
             firstName,
             lastName,
             password,
+            Active.Create(true),
+            LastLogin.CreateEmpty(),
             DateTime.UtcNow,
             UserId.CreateUnique(),
-            DateTime.UtcNow,
-            UserId.CreateUnique());
+            null,
+            null);
     }
+
+    public bool IsBlocked()
+        => Blockade is not null;
 }

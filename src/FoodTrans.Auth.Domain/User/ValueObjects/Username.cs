@@ -6,7 +6,7 @@ namespace Domain.User.ValueObjects;
 
 public sealed class Username : ValueObject
 {
-    public string Value { get; private set; }
+    public string Value { get; }
 
     private Username() { }
 

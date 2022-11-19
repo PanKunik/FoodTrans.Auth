@@ -1,3 +1,5 @@
+using Domain.User.ValueObjects;
+
 namespace Domain.Common.Models;
 
 public abstract class Entity<TId> : IEquatable<Entity<TId>>
@@ -5,9 +7,9 @@ public abstract class Entity<TId> : IEquatable<Entity<TId>>
 {
     public TId Id { get; protected set; }
 
-    public Guid CreatedBy { get; protected set; }
+    public UserId CreatedBy { get; protected set; }
     public DateTime CreatedAt { get; protected set; }
-    public Guid? LastModifiedBy { get; protected set; }
+    public UserId? LastModifiedBy { get; protected set; }
     public DateTime? LastModificationDate { get; protected set; }
 
     protected Entity(TId id)

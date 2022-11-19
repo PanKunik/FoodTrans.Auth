@@ -6,7 +6,7 @@ namespace Domain.User.ValueObjects;
 
 public sealed class Password : ValueObject
 {
-    public string Value { get; private set; }
+    public string Value { get; }
 
     private Password() { }
 
