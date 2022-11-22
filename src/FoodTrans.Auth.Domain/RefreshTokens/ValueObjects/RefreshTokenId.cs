@@ -1,6 +1,6 @@
 using Domain.Common.Models;
 
-namespace Domain.RefreshToken.ValueObjects;
+namespace Domain.RefreshTokens.ValueObjects;
 
 public sealed class RefreshTokenId : ValueObject
 {

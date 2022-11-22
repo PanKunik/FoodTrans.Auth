@@ -2,7 +2,7 @@ using Domain.Common.Models;
 using ErrorOr;
 using Domain.Common.Errors;
 
-namespace Domain.User.ValueObjects;
+namespace Domain.Users.ValueObjects;
 
 public sealed class Password : ValueObject
 {
@@ -24,7 +24,7 @@ public sealed class Password : ValueObject
             errors.Add(Errors.Auth.EmptyPassword);
         }
 
-        if (password.Length < 8 || password.Length > 20)
+        if (password.Length < 8 || password.Length > 200)
         {
             errors.Add(Errors.Auth.InvalidPasswordLength);
         }

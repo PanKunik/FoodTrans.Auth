@@ -1,5 +1,5 @@
 using Application.Users.Commands;
-using Domain.User;
+using Domain.Users;
 using ErrorOr;
 using FoodTrans.Auth.Application.Users.Commands;
 using FoodTrans.Auth.Application.Users.DTO;

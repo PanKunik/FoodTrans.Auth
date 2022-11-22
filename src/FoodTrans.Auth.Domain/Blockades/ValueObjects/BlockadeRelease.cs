@@ -1,6 +1,6 @@
 using Domain.Common.Models;
 
-namespace Domain.User.ValueObjects;
+namespace Domain.Blockades.ValueObjects;
 
 public sealed class BlockadeRelease : ValueObject
 {
@@ -15,6 +15,8 @@ public sealed class BlockadeRelease : ValueObject
     {
         return new(value);
     }
+
+    public static BlockadeRelease CreateEmpty() => new(null);
 
     public override IEnumerable<object> GetEqualityComponents()
     {

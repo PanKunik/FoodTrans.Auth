@@ -2,7 +2,7 @@ using Domain.Common.Models;
 using ErrorOr;
 using Domain.Common.Errors;
 
-namespace Domain.User.ValueObjects;
+namespace Domain.Blockades.ValueObjects;
 
 public sealed class BlockadeReason : ValueObject
 {

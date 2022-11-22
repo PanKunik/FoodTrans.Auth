@@ -1,6 +1,6 @@
 using Application.Contracts;
-using Domain.User;
-using Domain.User.ValueObjects;
+using Domain.Users;
+using Domain.Users.ValueObjects;
 using ErrorOr;
 using MediatR;
 

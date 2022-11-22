@@ -1,6 +1,6 @@
 using Domain.Common.Models;
 
-namespace Domain.User.ValueObjects;
+namespace Domain.Blockades.ValueObjects;
 
 public sealed class BlockadeId : ValueObject
 {

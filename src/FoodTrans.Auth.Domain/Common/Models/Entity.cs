@@ -1,4 +1,4 @@
-using Domain.User.ValueObjects;
+using Domain.Users.ValueObjects;
 
 namespace Domain.Common.Models;
 

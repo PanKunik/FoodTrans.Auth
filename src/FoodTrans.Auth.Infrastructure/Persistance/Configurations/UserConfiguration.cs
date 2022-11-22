@@ -1,5 +1,7 @@
-using Domain.User;
-using Domain.User.ValueObjects;
+using Domain.Blockades;
+using Domain.Common.ValueObjects;
+using Domain.Users;
+using Domain.Users.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -36,12 +38,6 @@ internal sealed class UserConfiguration : IEntityTypeConfiguration<User>
             .HasMaxLength(50);
 
         builder
-            .Property(x => x.Password)
-            .HasConversion(x => x.Value, x => Password.Create(x).Value)
-            .IsRequired()
-            .HasMaxLength(200);
-
-        builder
             .Property(x => x.FirstName)
             .HasConversion(x => x.Value, x => FirstName.Create(x).Value)
             .IsRequired()
@@ -54,11 +50,24 @@ internal sealed class UserConfiguration : IEntityTypeConfiguration<User>
             .HasMaxLength(50);
 
         builder
+            .Property(x => x.Password)
+            .HasConversion(x => x.Value, x => Password.Create(x).Value)
+            .IsRequired()
+            .HasMaxLength(200);
+
+        builder
             .Property(x => x.Active)
+            .HasConversion(x => x.Value, x => Active.Create(x))
             .IsRequired();
 
         builder
-            .Property(x => x.LastLogin);
+            .Property(x => x.LastLogin)
+            .HasConversion(x => x.Value, x => LastLogin.Create(x));
+
+        builder
+            .HasMany<Blockade>(x => x.Blockades)
+            .WithOne()
+            .HasForeignKey(x => x.UserId);
 
         builder
             .Property(x => x.CreatedAt)
@@ -66,6 +75,11 @@ internal sealed class UserConfiguration : IEntityTypeConfiguration<User>
 
         builder
             .Property(x => x.CreatedBy)
+            .HasConversion(x => x.Value, _ => UserId.CreateUnique())
             .IsRequired();
+
+        builder
+            .Property(x => x.LastModifiedBy)
+            .HasConversion(x => x == null ? Guid.Empty : x.Value, _ => UserId.CreateUnique());
     }
 }

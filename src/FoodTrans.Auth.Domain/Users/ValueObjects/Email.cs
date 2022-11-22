@@ -2,7 +2,7 @@ using Domain.Common.Models;
 using ErrorOr;
 using Domain.Common.Errors;
 
-namespace Domain.User.ValueObjects;
+namespace Domain.Users.ValueObjects;
 
 public sealed class Email : ValueObject
 {
@@ -22,6 +22,11 @@ public sealed class Email : ValueObject
         if (string.IsNullOrWhiteSpace(email))
         {
             return Errors.Auth.EmptyEmail;
+        }
+
+        if (email.Length > 100)
+        {
+            return Errors.Auth.InvalidEmailLength;
         }
 
         return new Email(email);

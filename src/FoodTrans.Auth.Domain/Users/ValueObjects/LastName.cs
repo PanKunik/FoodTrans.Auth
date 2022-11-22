@@ -2,7 +2,7 @@ using Domain.Common.Models;
 using ErrorOr;
 using Domain.Common.Errors;
 
-namespace Domain.User.ValueObjects;
+namespace Domain.Users.ValueObjects;
 
 public sealed class LastName : ValueObject
 {
@@ -24,7 +24,7 @@ public sealed class LastName : ValueObject
             errors.Add(Errors.Auth.EmptyLastName);
         }
 
-        if (lastName.Length < 3 || lastName.Length > 30)
+        if (lastName.Length < 3 || lastName.Length > 50)
         {
             errors.Add(Errors.Auth.InvalidLastNameLength);
         }

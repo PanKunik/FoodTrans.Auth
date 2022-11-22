@@ -10,6 +10,10 @@ public static partial class Errors
             code: "User.EmptyEmail",
             description: "Email cannot be null or empty.");
 
+        public static Error InvalidEmailLength => Error.Validation(
+            code: "User.InvalidEmailLength",
+            description: "Email maximum length is 100 characters.");
+
         public static Error EmptyUserName => Error.Validation(
             code: "User.EmptyUserName",
             description: "User name cannot be null or empty.");

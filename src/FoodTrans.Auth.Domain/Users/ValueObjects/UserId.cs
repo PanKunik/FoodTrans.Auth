@@ -1,10 +1,12 @@
 using Domain.Common.Models;
 
-namespace Domain.User.ValueObjects;
+namespace Domain.Users.ValueObjects;
 
 public sealed class UserId : ValueObject
 {
     public Guid Value { get;}
+
+    private UserId() { }
 
     private UserId(Guid value)
     {

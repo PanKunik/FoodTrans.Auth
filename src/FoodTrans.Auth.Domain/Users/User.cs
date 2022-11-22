@@ -1,10 +1,11 @@
+using Domain.Blockades;
+using Domain.Blockades.ValueObjects;
 using Domain.Common.Models;
 using Domain.Common.ValueObjects;
-using Domain.User.Entities;
-using Domain.User.ValueObjects;
+using Domain.Users.ValueObjects;
 using ErrorOr;
 
-namespace Domain.User;
+namespace Domain.Users;
 
 public sealed class User : AggregateRoot<UserId>
 {
@@ -15,7 +16,9 @@ public sealed class User : AggregateRoot<UserId>
     public Password Password { get; }
     public Active Active { get; }
     public LastLogin LastLogin { get; }
-    public Blockade Blockade { get; } // TODO: Wydzielić AggregateRoot - Odwołać się po id?
+
+    public BlockadeId? CurrentBlockadeId { get; }
+    public ICollection<Blockade> Blockades { get; }
 
     private User(
         UserId id,
@@ -68,5 +71,5 @@ public sealed class User : AggregateRoot<UserId>
     }
 
     public bool IsBlocked()
-        => Blockade is not null;
+        => CurrentBlockadeId is not null;
 }

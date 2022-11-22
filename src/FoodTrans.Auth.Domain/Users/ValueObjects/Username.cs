@@ -2,7 +2,7 @@ using Domain.Common.Models;
 using ErrorOr;
 using Domain.Common.Errors;
 
-namespace Domain.User.ValueObjects;
+namespace Domain.Users.ValueObjects;
 
 public sealed class Username : ValueObject
 {
@@ -24,7 +24,7 @@ public sealed class Username : ValueObject
 
         var errors = new List<Error>();
 
-        if (userName.Length < 5 || userName.Length > 20)
+        if (userName.Length < 5 || userName.Length > 50)
         {
             errors.Add(Errors.Auth.InvalidUserNameLength);
         }
