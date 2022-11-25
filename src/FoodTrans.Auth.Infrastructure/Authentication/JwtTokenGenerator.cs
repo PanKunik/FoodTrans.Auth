@@ -2,10 +2,10 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using Application.Contracts;
+using Domain;
 using Domain.Users;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-
 
 namespace Infrastructure.Authentication;
 
@@ -18,7 +18,7 @@ internal sealed class JwtTokenGenerator : IJwtTokenGenerator
         _jwtSettings = jwtSettings.Value;
     }
 
-    public string GenerateToken(User user)
+    public JwtToken GenerateToken(User user)
     {
         var symmetricKey = new SymmetricSecurityKey(
             Encoding.UTF8.GetBytes(_jwtSettings.Key));
@@ -36,13 +36,16 @@ internal sealed class JwtTokenGenerator : IJwtTokenGenerator
             new Claim(ClaimTypes.Role, "user")
         };
 
+        var tokenExpiration = DateTime.UtcNow.AddMinutes(_jwtSettings.DurationInMinutes);
+
         var jwtSecurityToken = new JwtSecurityToken(
             issuer: _jwtSettings.Issuer,
             audience: _jwtSettings.Audience,
             claims: claims,
-            expires: DateTime.UtcNow.AddMinutes(_jwtSettings.DurationInMinutes),
+            expires: tokenExpiration,
             signingCredentials: signingCredential);
 
-        return new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
+        var tokenValue = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
+        return new JwtToken() { Value = tokenValue, ExpiresAt = tokenExpiration };
     }
 }

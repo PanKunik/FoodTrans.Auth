@@ -70,6 +70,6 @@ public sealed class RegisterCommandHandler : IRequestHandler<RegisterCommand, Er
         user = await _userRespository.AddUser(user.Value);
         var token = _jwtTokenGenerator.GenerateToken(user.Value);
 
-        return new AuthenticationResult(user.Value.Email, user.Value.Username, token);
+        return new AuthenticationResult(user.Value.Email, user.Value.Username, token.Value, token.ExpiresAt);
     }
 }

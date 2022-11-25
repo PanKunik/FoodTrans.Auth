@@ -1,8 +1,9 @@
+using Domain;
 using Domain.Users;
 
 namespace Application.Contracts;
 
 public interface IJwtTokenGenerator
 {
-    string GenerateToken(User user);
+    JwtToken GenerateToken(User user);
 }
