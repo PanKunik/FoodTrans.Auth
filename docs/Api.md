@@ -37,11 +37,9 @@ If everything went good, the response would be:
 
 ```json
 {
-    "id": "00000000-0000-0000-0000-000000000000",
     "email": "abc@def.com",
     "username": "jkowal",
-    "firstName": "John",
-    "lastName": "Kowalsky"
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
 }
 ```
 
@@ -122,14 +120,11 @@ If credentials are correct you will obtain:
 
 ```json
 {
-    "id": "ecacf34f-e8c3-4228-831d-5ae3d0b8d944",
     "email": "pkunik@o2.pl",
     "username": "pkunik",
-    "firstName": "Patryk",
-    "lastName": "Kunik",
     "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
-    "expiresAt": "2022-11-22T00:00:00.000Z",
-    "refreshToken": "00000000-0000-0000-0000-000000000000"
+    // "expiresAt": "2022-11-22T00:00:00.000Z",
+    // "refreshToken": "00000000-0000-0000-0000-000000000000"
 }
 ```
 
