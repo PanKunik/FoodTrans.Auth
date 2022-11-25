@@ -1,4 +1,5 @@
 using Application.Contracts;
+using Application.Users.Common;
 using Domain.Users;
 using Domain.Users.ValueObjects;
 using ErrorOr;
@@ -6,17 +7,18 @@ using MediatR;
 
 namespace Application.Users.Commands.RegisterCommand;
 
-
-public sealed class RegisterCommandHandler : IRequestHandler<RegisterCommand, ErrorOr<User>>
+public sealed class RegisterCommandHandler : IRequestHandler<RegisterCommand, ErrorOr<AuthenticationResult>>
 {
     private readonly IUserRepository _userRespository;
+    private readonly IJwtTokenGenerator _jwtTokenGenerator;
 
-    public RegisterCommandHandler(IUserRepository userRespository)
+    public RegisterCommandHandler(IUserRepository userRespository, IJwtTokenGenerator jwtTokenGenerator)
     {
         _userRespository = userRespository;
+        _jwtTokenGenerator = jwtTokenGenerator;
     }
 
-    public async Task<ErrorOr<User>> Handle(RegisterCommand request, CancellationToken cancellationToken)
+    public async Task<ErrorOr<AuthenticationResult>> Handle(RegisterCommand request, CancellationToken cancellationToken)
     {
         var email = Email.Create(request.Email);
 
@@ -53,8 +55,6 @@ public sealed class RegisterCommandHandler : IRequestHandler<RegisterCommand, Er
             return password.Errors;
         }
 
-        // TODO: Wielokrotne sprawdzanie czy wystąpił błąd, zbyt długi kod
-
         var user = User.Create(
             email.Value,
             username.Value,
@@ -62,9 +62,14 @@ public sealed class RegisterCommandHandler : IRequestHandler<RegisterCommand, Er
             lastName.Value,
             password.Value);
 
-        if (!user.IsError)
-            await _userRespository.AddUser(user.Value);
+        if (user.IsError)
+        {
+            return user.Errors;
+        }
 
-        return user;
+        user = await _userRespository.AddUser(user.Value);
+        var token = _jwtTokenGenerator.GenerateToken(user.Value);
+
+        return new AuthenticationResult(user.Value.Email, user.Value.Username, token);
     }
 }

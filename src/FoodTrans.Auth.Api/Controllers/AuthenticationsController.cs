@@ -1,6 +1,6 @@
 using Application.Users.Commands.LoginCommand;
 using Application.Users.Commands.RegisterCommand;
-using Domain.Users;
+using Application.Users.Common;
 using ErrorOr;
 using FoodTrans.Auth.Application.Users.DTO;
 using FoodTrans.Auth.Controllers.Common;
@@ -21,20 +21,20 @@ public class AuthenticationsController : ApiController
     }
 
     [HttpPost("register")]
-    [ProducesResponseType(typeof(UserDTO), Status201Created)]
+    [ProducesResponseType(typeof(AuthenticationResult), Status201Created)]
     [ProducesResponseType(typeof(Error), Status400BadRequest)]
     public async Task<IActionResult> Register(RegisterCommand command)
     {
         var result = await _mediator.Send(command);
 
         return result.Match(
-            user => Created("api/auth/register", MapToDTO(user)),
+            registerResult => Created("api/auth/register", registerResult),
             errors => Problem(errors)
         );
     }
 
     [HttpPost("login")]
-    [ProducesResponseType(typeof(UserDTO), Status200OK)]
+    [ProducesResponseType(typeof(AuthenticationResult), Status200OK)]
     [ProducesResponseType(typeof(Error), Status400BadRequest)]
     [ProducesResponseType(typeof(Error), Status404NotFound)]
     public async Task<IActionResult> Login(LoginCommand command)
@@ -42,21 +42,10 @@ public class AuthenticationsController : ApiController
         var result = await _mediator.Send(command);
 
         return result.Match(
-            user => Ok(MapToDTO(user)),
+            loginResult => Ok(loginResult),
             errors => Problem(errors)
         );
     }
-
-    // TODO: Add mapping NuGet package (Mapper or Mapster)
-    private static UserDTO MapToDTO(User user)
-        => new()
-        {
-            Id = user.Id,
-            Email = user.Email,
-            FirstName = user.FirstName,
-            LastName = user.LastName,
-            Username = user.Username
-        };
 
     // [HttpPost("refreshToken")]
     // public async Task<ActionResult> RefreshToken(RefreshTokenCommand command)
