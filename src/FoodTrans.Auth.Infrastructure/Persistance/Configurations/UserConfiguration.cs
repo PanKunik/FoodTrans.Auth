@@ -1,4 +1,5 @@
 using Domain.Blockades;
+using Domain.Blockades.ValueObjects;
 using Domain.Common.ValueObjects;
 using Domain.Users;
 using Domain.Users.ValueObjects;
@@ -65,9 +66,13 @@ internal sealed class UserConfiguration : IEntityTypeConfiguration<User>
             .HasConversion(x => x.Value, x => LastLogin.Create(x));
 
         builder
-            .HasMany<Blockade>(x => x.Blockades)
-            .WithOne()
-            .HasForeignKey(x => x.UserId);
+            .HasOne<Blockade>()
+            .WithMany()
+            .HasForeignKey(x => x.CurrentBlockadeId);
+
+        builder
+            .Property(x => x.CurrentBlockadeId)
+            .HasConversion(x => x.Value, x => BlockadeId.CreateUnique());
 
         builder
             .Property(x => x.CreatedAt)

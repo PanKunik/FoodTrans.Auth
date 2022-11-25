@@ -32,6 +32,9 @@ public sealed class Email : ValueObject
         return new Email(email);
     }
 
+    public static implicit operator string(Email data)
+        => data.Value;
+
     public override IEnumerable<object> GetEqualityComponents()
     {
         yield return Value;

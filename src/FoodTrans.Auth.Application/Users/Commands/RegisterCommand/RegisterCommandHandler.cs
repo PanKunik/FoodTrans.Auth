@@ -4,16 +4,8 @@ using Domain.Users.ValueObjects;
 using ErrorOr;
 using MediatR;
 
-namespace FoodTrans.Auth.Application.Users.Commands;
+namespace Application.Users.Commands.RegisterCommand;
 
-public sealed class RegisterCommand : IRequest<ErrorOr<User>>
-{
-    public string Email { get; set; }
-    public string Username { get; set; }
-    public string FirstName { get; set; }
-    public string LastName { get; set; }
-    public string Password { get; set; }
-}
 
 public sealed class RegisterCommandHandler : IRequestHandler<RegisterCommand, ErrorOr<User>>
 {
@@ -30,35 +22,35 @@ public sealed class RegisterCommandHandler : IRequestHandler<RegisterCommand, Er
 
         if (email.IsError)
         {
-            return Error.Conflict();    // TODO: Zwrócenie niepoprawnego błędu - powiniene dotyczyć adresu email
+            return email.Errors;
         }
 
         var username = Username.Create(request.Username);
 
         if (username.IsError)
         {
-            return Error.Conflict();    // TODO: Zwrócenie niepoprawnego błędu - powiniene dotyczyć nazwy użytkownika
+            return username.Errors;
         }
 
         var firstName = FirstName.Create(request.FirstName);
 
         if (firstName.IsError)
         {
-            return Error.Conflict();    // TODO: Zwrócenie niepoprawnego błędu - powiniene dotyczyć imienia
+            return firstName.Errors;
         }
 
         var lastName = LastName.Create(request.LastName);
 
         if (lastName.IsError)
         {
-            return Error.Conflict();    // TODO: Zwrócenie niepoprawnego błędu - powiniene dotyczyć nazwiska
+            return lastName.Errors;
         }
 
         var password = Password.Create(request.Password);
 
         if (password.IsError)
         {
-            return Error.Conflict();    // TODO: Zwrócenie niepoprawnego błędu - powiniene dotyczyć hasłą
+            return password.Errors;
         }
 
         // TODO: Wielokrotne sprawdzanie czy wystąpił błąd, zbyt długi kod

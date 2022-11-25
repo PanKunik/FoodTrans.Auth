@@ -26,8 +26,8 @@ public sealed class UserRepository : IUserRepository
         return await _dbContext.Users.FirstOrDefaultAsync(x => x.Email.Equals(email));
     }
 
-    public async Task<User> GetUserByUserName(string userName)
+    public async Task<User> GetUserByUsername(Username username)
     {
-        return await _dbContext.Users.FirstOrDefaultAsync(x => x.Username.Equals(userName));
+        return await _dbContext.Users.FirstOrDefaultAsync(x => x.Username.Equals(username));
     }
 }

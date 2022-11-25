@@ -18,7 +18,6 @@ public sealed class User : AggregateRoot<UserId>
     public LastLogin LastLogin { get; }
 
     public BlockadeId? CurrentBlockadeId { get; }
-    public ICollection<Blockade> Blockades { get; }
 
     private User(
         UserId id,

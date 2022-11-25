@@ -15,23 +15,23 @@ public sealed class Username : ValueObject
         Value = value;
     }
 
-    public static ErrorOr<Username> Create(string userName)
+    public static ErrorOr<Username> Create(string username)
     {
-        if (string.IsNullOrWhiteSpace(userName))
+        if (string.IsNullOrWhiteSpace(username))
         {
             return new Username(null);
         }
 
         var errors = new List<Error>();
 
-        if (userName.Length < 5 || userName.Length > 50)
+        if (username.Length < 5 || username.Length > 50)
         {
-            errors.Add(Errors.Auth.InvalidUserNameLength);
+            errors.Add(Errors.Auth.InvalidUsernameLength);
         }
 
-        if (!userName.All(x => char.IsLetterOrDigit(x)))
+        if (!username.All(x => char.IsLetterOrDigit(x)))
         {
-            errors.Add(Errors.Auth.InvalidUserName);
+            errors.Add(Errors.Auth.InvalidUsername);
         }
 
         if (errors.Count > 0)
@@ -39,8 +39,11 @@ public sealed class Username : ValueObject
             return errors;
         }
 
-        return new Username(userName);
+        return new Username(username);
     }
+
+    public static implicit operator string(Username data)
+        => data.Value;
 
     public override IEnumerable<object> GetEqualityComponents()
     {

@@ -6,6 +6,10 @@ public static partial class Errors
 {
     public static class Auth
     {
+        public static Error InvalidCredentials => Error.Conflict(
+            code: "User.InvalidCred",
+            description: "Wrong email/username and/or password.");
+
         public static Error EmptyEmail => Error.Validation(
             code: "User.EmptyEmail",
             description: "Email cannot be null or empty.");
@@ -18,11 +22,11 @@ public static partial class Errors
             code: "User.EmptyUserName",
             description: "User name cannot be null or empty.");
 
-        public static Error InvalidUserNameLength => Error.Validation(
+        public static Error InvalidUsernameLength => Error.Validation(
             code: "User.InvalidUserNameLength",
             description: "User name must have between 5 and 20 characters.");
 
-        public static Error InvalidUserName => Error.Validation(
+        public static Error InvalidUsername => Error.Validation(
             code: "User.InvalidUserName",
             description: "User name must contain only digits and letters");
 

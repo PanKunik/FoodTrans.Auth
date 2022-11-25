@@ -37,6 +37,9 @@ public sealed class LastName : ValueObject
         return new LastName(lastName);
     }
 
+    public static implicit operator string(LastName data)
+        => data.Value;
+
     public override IEnumerable<object> GetEqualityComponents()
     {
         yield return Value;

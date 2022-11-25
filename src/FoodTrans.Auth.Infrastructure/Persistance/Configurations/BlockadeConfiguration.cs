@@ -1,5 +1,6 @@
 using Domain.Blockades;
 using Domain.Blockades.ValueObjects;
+using Domain.Users;
 using Domain.Users.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -31,10 +32,6 @@ internal sealed class BlockadeConfiguration : IEntityTypeConfiguration<Blockade>
             .Property(x => x.BlockadeReason)
             .IsRequired()
             .HasConversion(x => x.Value, x => BlockadeReason.Create(x).Value);
-
-        builder
-            .Property(x => x.UserId)
-            .IsRequired();
 
         builder
             .Property(x => x.CreatedAt)

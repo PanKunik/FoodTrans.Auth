@@ -4,7 +4,7 @@ namespace Domain.Users.ValueObjects;
 
 public sealed class UserId : ValueObject
 {
-    public Guid Value { get;}
+    public Guid Value { get; }
 
     private UserId() { }
 
@@ -15,6 +15,9 @@ public sealed class UserId : ValueObject
 
     public static UserId CreateUnique()
         => new(Guid.NewGuid());
+
+    public static implicit operator Guid(UserId data)
+        => data.Value;
 
     public override IEnumerable<object> GetEqualityComponents()
     {

@@ -6,6 +6,6 @@ namespace Application.Contracts;
 public interface IUserRepository
 {
     Task<User> GetUserByEmail(Email email);
-    Task<User> GetUserByUserName(string userName);
+    Task<User> GetUserByUsername(Username userName);
     Task<User> AddUser(User user);
 }

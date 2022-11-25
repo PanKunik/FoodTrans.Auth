@@ -25,4 +25,4 @@ It accepts payload with user related data. Example payload can look like this:
 }
 ```
 
-If the request is handled successfully, the user will receive empty response with `204 No content`.
+If the request is handled successfully, the user will receive empty response with `201 Created`.
