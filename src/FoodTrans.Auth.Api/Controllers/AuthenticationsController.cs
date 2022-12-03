@@ -1,10 +1,12 @@
 using Application.Users.Commands.LoginCommand;
+using Application.Users.Commands.MeCommand;
 using Application.Users.Commands.RegisterCommand;
 using Application.Users.Common;
 using ErrorOr;
 using FoodTrans.Auth.Application.Users.DTO;
 using FoodTrans.Auth.Controllers.Common;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using static Microsoft.AspNetCore.Http.StatusCodes;
 
@@ -43,6 +45,20 @@ public class AuthenticationsController : ApiController
 
         return result.Match(
             loginResult => Ok(loginResult),
+            errors => Problem(errors)
+        );
+    }
+
+    [Authorize]
+    [HttpGet("me")]
+    [ProducesResponseType(typeof(MeDTO), Status200OK)]
+    public async Task<IActionResult> Me()
+    {
+        var command = new MeCommand("patmat12");
+        var result = await _mediator.Send(command);
+
+        return result.Match(
+            meResult => Ok(meResult),
             errors => Problem(errors)
         );
     }

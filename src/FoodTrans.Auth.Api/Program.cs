@@ -22,6 +22,8 @@ var app = builder.Build();
     app.UseSwagger();
     app.UseSwaggerUI();
 
+    app.UseInfrastructure();
+
     app.UseHttpsRedirection();
     app.MapControllers();
     app.Run();
