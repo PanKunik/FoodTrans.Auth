@@ -1,3 +1,4 @@
+using System.IdentityModel.Tokens.Jwt;
 using Application.Users.Commands.LoginCommand;
 using Application.Users.Commands.MeCommand;
 using Application.Users.Commands.RegisterCommand;
@@ -54,7 +55,10 @@ public class AuthenticationsController : ApiController
     [ProducesResponseType(typeof(MeDTO), Status200OK)]
     public async Task<IActionResult> Me()
     {
-        var command = new MeCommand("patmat12");
+        var authorizeHeader = this.HttpContext.Request.Headers["Authorization"].FirstOrDefault();
+        var jwtToken = new JwtSecurityToken(authorizeHeader?.Replace("Bearer ", ""));
+        var username = jwtToken.Claims.FirstOrDefault(c => c.Type.Equals("sub"));
+        var command = new MeCommand(username?.Value);
         var result = await _mediator.Send(command);
 
         return result.Match(

@@ -1,9 +1,11 @@
+using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 using Application.Contracts;
 using Infrastructure.Authentication;
 using Infrastructure.Persistance;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
