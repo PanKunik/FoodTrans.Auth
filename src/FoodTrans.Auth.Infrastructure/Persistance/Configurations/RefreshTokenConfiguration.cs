@@ -1,5 +1,6 @@
 using Domain.RefreshTokens;
 using Domain.RefreshTokens.ValueObjects;
+using Domain.Users;
 using Domain.Users.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -15,7 +16,7 @@ internal sealed class RefreshTokenConfiguration : IEntityTypeConfiguration<Refre
 
         builder
             .Property(x => x.Id)
-            .HasConversion(x => x.Value, _ => RefreshTokenId.CreateUnique());
+            .HasConversion(x => x.Value, x => RefreshTokenId.CreateFrom(x));
 
         builder
             .Property(x => x.Token)
@@ -27,16 +28,29 @@ internal sealed class RefreshTokenConfiguration : IEntityTypeConfiguration<Refre
             .HasConversion(x => x.Value, x => ExpiresAt.Create(x).Value);
 
         builder
+            .HasOne<User>()
+            .WithMany()
+            .HasForeignKey(x => x.UserId);
+
+        builder
+            .Property(x => x.UserId)
+            .HasConversion(x => x.Value, x => UserId.CreateFrom(x));
+
+        builder
+            .Property(x => x.WasUsed)
+            .HasConversion(x => x.Value, x => WasUsed.Create(x));
+
+        builder
             .Property(x => x.CreatedAt)
             .IsRequired();
 
         builder
             .Property(x => x.CreatedBy)
-            .HasConversion(x => x.Value, _ => UserId.CreateUnique())
+            .HasConversion(x => x.Value, x => UserId.CreateFrom(x))
             .IsRequired();
 
         builder
             .Property(x => x.LastModifiedBy)
-            .HasConversion(x => x == null ? Guid.Empty : x.Value, _ => UserId.CreateUnique());
+            .HasConversion(x => x == null ? Guid.Empty : x.Value, x => UserId.CreateFrom(x));
     }
 }

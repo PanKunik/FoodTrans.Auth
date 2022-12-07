@@ -32,7 +32,7 @@ internal sealed class JwtTokenGenerator : IJwtTokenGenerator
             new Claim(JwtRegisteredClaimNames.Sub, user.Username),
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
             new Claim(JwtRegisteredClaimNames.Email, user.Email),
-            new Claim("uid", Guid.NewGuid().ToString()),
+            new Claim("uid", user.Id.Value.ToString()),
             new Claim(ClaimTypes.Role, "user")
         };
 
@@ -46,6 +46,7 @@ internal sealed class JwtTokenGenerator : IJwtTokenGenerator
             signingCredentials: signingCredential);
 
         var tokenValue = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
-        return new JwtToken() { Value = tokenValue, ExpiresAt = tokenExpiration };
+        var refreshToken = Guid.NewGuid();
+        return new JwtToken() { Value = tokenValue, ExpiresAt = tokenExpiration, RefreshToken = refreshToken };
     }
 }

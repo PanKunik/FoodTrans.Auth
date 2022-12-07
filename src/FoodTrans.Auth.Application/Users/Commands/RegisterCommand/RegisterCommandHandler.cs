@@ -1,5 +1,4 @@
 using Application.Contracts;
-using Application.Users.Common;
 using Domain.Users;
 using Domain.Users.ValueObjects;
 using ErrorOr;
@@ -7,18 +6,16 @@ using MediatR;
 
 namespace Application.Users.Commands.RegisterCommand;
 
-public sealed class RegisterCommandHandler : IRequestHandler<RegisterCommand, ErrorOr<AuthenticationResult>>
+public sealed class RegisterCommandHandler : IRequestHandler<RegisterCommand, ErrorOr<RegisterResult>>
 {
     private readonly IUserRepository _userRespository;
-    private readonly IJwtTokenGenerator _jwtTokenGenerator;
 
-    public RegisterCommandHandler(IUserRepository userRespository, IJwtTokenGenerator jwtTokenGenerator)
+    public RegisterCommandHandler(IUserRepository userRespository)
     {
         _userRespository = userRespository;
-        _jwtTokenGenerator = jwtTokenGenerator;
     }
 
-    public async Task<ErrorOr<AuthenticationResult>> Handle(RegisterCommand request, CancellationToken cancellationToken)
+    public async Task<ErrorOr<RegisterResult>> Handle(RegisterCommand request, CancellationToken cancellationToken)
     {
         var email = Email.Create(request.Email);
 
@@ -68,8 +65,7 @@ public sealed class RegisterCommandHandler : IRequestHandler<RegisterCommand, Er
         }
 
         user = await _userRespository.AddUser(user.Value);
-        var token = _jwtTokenGenerator.GenerateToken(user.Value);
 
-        return new AuthenticationResult(user.Value.Email, user.Value.Username, token.Value, token.ExpiresAt);
+        return new RegisterResult(user.Value.Email, user.Value.Username, user.Value.FirstName, user.Value.LastName);
     }
 }

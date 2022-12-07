@@ -1,4 +1,3 @@
-using Application.Users.Common;
 using ErrorOr;
 using MediatR;
 
@@ -9,4 +8,4 @@ public sealed record RegisterCommand(
     string Username,
     string FirstName,
     string LastName,
-    string Password) : IRequest<ErrorOr<AuthenticationResult>>;
+    string Password) : IRequest<ErrorOr<RegisterResult>>;

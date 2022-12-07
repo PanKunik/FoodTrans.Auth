@@ -18,6 +18,9 @@ public sealed class RefreshTokenId : ValueObject
         return new(Guid.NewGuid());
     }
 
+    public static RefreshTokenId CreateFrom(Guid data)
+        => new (data);
+
     public static implicit operator Guid(RefreshTokenId value)
         => value.Value;
 

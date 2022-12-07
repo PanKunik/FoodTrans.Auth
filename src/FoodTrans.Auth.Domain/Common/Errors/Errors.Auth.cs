@@ -69,5 +69,13 @@ public static partial class Errors
         public static Error PasswordWithoutUpperCaseLetter => Error.Validation(
             code: "User.PasswordWithoutUpperCaseLetter",
             description: "Password must contain at least 1 upper case letter.");
+
+        public static Error AlreadyLogedIn => Error.Conflict(
+            code: "User.AlreadyLogedIn",
+            description: "You are already loged in.");
+
+        public static Error AlreadyLogedOut => Error.Conflict(
+            code: "User.AlreadyLogedOut",
+            description: "You are already loged out.");
     }
 }

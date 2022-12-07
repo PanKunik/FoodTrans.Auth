@@ -4,9 +4,9 @@ POST {{host}}/api/auth/register
 Content-Type: application/json
 
 {
-    "firstName": "Pat",
-    "lastName": "Mat",
-    "username": "patmat12",
-    "email": "patmat12@o2.pl",
+    "firstName": "Adam",
+    "lastName": "Schawrz",
+    "username": "aschawrz",
+    "email": "aschwarz@o2.pl",
     "password": "Pa$$word1"
 }

@@ -17,7 +17,7 @@ internal sealed class UserConfiguration : IEntityTypeConfiguration<User>
 
         builder
             .Property(x => x.Id)
-            .HasConversion(x => x.Value, x => UserId.CreateUnique());
+            .HasConversion(x => x.Value, x => UserId.CreateFrom(x));
 
         builder
             .HasIndex(x => x.Email)
@@ -80,11 +80,11 @@ internal sealed class UserConfiguration : IEntityTypeConfiguration<User>
 
         builder
             .Property(x => x.CreatedBy)
-            .HasConversion(x => x.Value, _ => UserId.CreateUnique())
+            .HasConversion(x => x.Value, x => UserId.CreateFrom(x))
             .IsRequired();
 
         builder
             .Property(x => x.LastModifiedBy)
-            .HasConversion(x => x == null ? Guid.Empty : x.Value, _ => UserId.CreateUnique());
+            .HasConversion(x => x == null ? Guid.Empty : x.Value, x => UserId.CreateFrom(x));
     }
 }

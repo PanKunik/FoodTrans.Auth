@@ -1,4 +1,3 @@
-using Domain.Users;
 using ErrorOr;
 using MediatR;
 

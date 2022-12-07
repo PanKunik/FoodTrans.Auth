@@ -1,16 +1,15 @@
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
 using Application.Users.Commands.LoginCommand;
 using Application.Users.Commands.MeCommand;
 using Application.Users.Commands.RegisterCommand;
-using Application.Users.Common;
+using Application.Users.Commands.RefreshTokenCommand;
 using ErrorOr;
-using FoodTrans.Auth.Application.Users.DTO;
 using FoodTrans.Auth.Controllers.Common;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using static Microsoft.AspNetCore.Http.StatusCodes;
+using Application.Users.Commands.LogoutCommand;
+using Api.Services;
 
 namespace FoodTrans.Auth.Api.Controllers;
 
@@ -18,14 +17,16 @@ namespace FoodTrans.Auth.Api.Controllers;
 public class AuthenticationsController : ApiController
 {
     private readonly IMediator _mediator;
+    private readonly IUserService _userService;
 
-    public AuthenticationsController(IMediator mediator)
+    public AuthenticationsController(IMediator mediator, IUserService userService)
     {
         _mediator = mediator;
+        _userService = userService;
     }
 
     [HttpPost("register")]
-    [ProducesResponseType(typeof(AuthenticationResult), Status201Created)]
+    [ProducesResponseType(typeof(RegisterResult), Status201Created)]
     [ProducesResponseType(typeof(Error), Status400BadRequest)]
     public async Task<IActionResult> Register(RegisterCommand command)
     {
@@ -38,7 +39,7 @@ public class AuthenticationsController : ApiController
     }
 
     [HttpPost("login")]
-    [ProducesResponseType(typeof(AuthenticationResult), Status200OK)]
+    [ProducesResponseType(typeof(LoginResult), Status200OK)]
     [ProducesResponseType(typeof(Error), Status400BadRequest)]
     [ProducesResponseType(typeof(Error), Status404NotFound)]
     public async Task<IActionResult> Login(LoginCommand command)
@@ -56,7 +57,7 @@ public class AuthenticationsController : ApiController
     [ProducesResponseType(typeof(MeDTO), Status200OK)]
     public async Task<IActionResult> Me()
     {
-        var command = new MeCommand(HttpContext.User?.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+        var command = new MeCommand(_userService.GetUsername());
         var result = await _mediator.Send(command);
 
         return result.Match(
@@ -65,15 +66,28 @@ public class AuthenticationsController : ApiController
         );
     }
 
-    // [HttpPost("refreshToken")]
-    // public async Task<ActionResult> RefreshToken(RefreshTokenCommand command)
-    // {
-    //     return await Task.FromResult(Ok());
-    // }
+    [HttpPost("refreshToken")]
+    [ProducesResponseType(typeof(RefreshTokenResult), Status200OK)]
+    public async Task<IActionResult> RefreshToken(RefreshTokenCommand command)
+    {
+        var result = await _mediator.Send(command);
 
-    // [HttpPost("logout")]
-    // public async Task<ActionResult> Logout(LogoutCommand command)
-    // {
-    //     return await Task.FromResult(Ok());
-    // }
+        return result.Match(
+            refreshTokenResult => Ok(refreshTokenResult),
+            errors => Problem(errors)
+        );
+    }
+
+    [Authorize]
+    [HttpPost("logout")]
+    public async Task<IActionResult> Logout()
+    {
+        var command = new LogoutCommand(_userService.GetUserId());
+        var result = await _mediator.Send(command);
+
+        return result.Match(
+            isSuccessfull => Ok(isSuccessfull),
+            errors => Problem(errors)
+        );
+    }
 }
