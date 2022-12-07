@@ -1,0 +1,8 @@
+@host=https://localhost:7177
+
+POST {{host}}/api/auth/refreshToken
+Content-Type: application/json
+
+{
+    "refreshToken": "090f901c-2991-41d6-a9e6-970cd548dfa8"
+}
