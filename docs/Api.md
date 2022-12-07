@@ -121,8 +121,6 @@ If credentials are correct you will obtain:
 
 ```json
 {
-    "email": "pkunik@o2.pl",
-    "username": "pkunik",
     "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
     "expiresAt": "2022-11-22T00:00:00.000Z",
     // "refreshToken": "00000000-0000-0000-0000-000000000000"

@@ -21,13 +21,16 @@ public sealed class UserRepository : IUserRepository
         return result.Entity;
     }
 
-    public async Task<User> GetUserByEmail(Email email)
+    public Task<User> GetUserByEmail(Email email)
     {
-        return await _dbContext.Users.FirstOrDefaultAsync(x => x.Email.Equals(email));
+        return _dbContext.Users.FirstOrDefaultAsync(x => x.Email.Equals(email));
     }
 
-    public async Task<User> GetUserByUsername(Username username)
+    public Task<User> GetUserByUsername(Username username)
     {
-        return await _dbContext.Users.FirstOrDefaultAsync(x => x.Username.Equals(username));
+        return _dbContext.Users.FirstOrDefaultAsync(x => x.Username.Equals(username));
     }
+
+    public Task<User> GetUserById(UserId userId)
+        => _dbContext.Users.FirstOrDefaultAsync(x => x.Id.Equals(userId));
 }

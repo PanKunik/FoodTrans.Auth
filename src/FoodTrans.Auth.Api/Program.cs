@@ -1,3 +1,4 @@
+using Api.Services;
 using Application;
 using Application.Contracts;
 using FoodTrans.Auth.Api.Common.Errors;
@@ -12,6 +13,9 @@ var builder = WebApplication.CreateBuilder(args);
                     .AddInfrastructure(builder.Configuration);
     builder.Services.AddSingleton<ProblemDetailsFactory, ApiProblemDetailsFactory>();
     builder.Services.AddScoped<IUserRepository, UserRepository>();
+    builder.Services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
+    builder.Services.AddHttpContextAccessor();
+    builder.Services.AddScoped<IUserService, UserService>();
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen();
 }

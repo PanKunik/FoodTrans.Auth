@@ -16,6 +16,9 @@ public sealed class UserId : ValueObject
     public static UserId CreateUnique()
         => new(Guid.NewGuid());
 
+    public static UserId CreateFrom(Guid value)
+        => new(value);
+
     public static implicit operator Guid(UserId data)
         => data.Value;
 

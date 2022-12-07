@@ -4,14 +4,14 @@ namespace Domain.RefreshTokens.ValueObjects;
 
 public sealed class Token : ValueObject
 {
-    public string Value { get; }
+    public Guid Value { get; }
 
-    private Token(string value)
+    private Token(Guid value)
     {
         Value = value;
     }
 
-    public static Token Create(string value)
+    public static Token Create(Guid value)
     {
         return new(value);
     }

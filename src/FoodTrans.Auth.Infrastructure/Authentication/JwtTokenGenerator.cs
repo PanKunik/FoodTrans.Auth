@@ -46,6 +46,7 @@ internal sealed class JwtTokenGenerator : IJwtTokenGenerator
             signingCredentials: signingCredential);
 
         var tokenValue = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
-        return new JwtToken() { Value = tokenValue, ExpiresAt = tokenExpiration };
+        var refreshToken = Guid.NewGuid();
+        return new JwtToken() { Value = tokenValue, ExpiresAt = tokenExpiration, RefreshToken = refreshToken };
     }
 }
