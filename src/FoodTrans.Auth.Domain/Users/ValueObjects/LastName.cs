@@ -17,21 +17,14 @@ public sealed class LastName : ValueObject
 
     public static ErrorOr<LastName> Create(string lastName)
     {
-        var errors = new List<Error>();
-
         if (string.IsNullOrWhiteSpace(lastName))
         {
-            errors.Add(Errors.Auth.EmptyLastName);
+            return Errors.Auth.EmptyLastName;
         }
 
         if (lastName.Length < 3 || lastName.Length > 50)
         {
-            errors.Add(Errors.Auth.InvalidLastNameLength);
-        }
-
-        if (errors.Count > 0)
-        {
-            return errors;
+            return Errors.Auth.InvalidLastNameLength;
         }
 
         return new LastName(lastName);
