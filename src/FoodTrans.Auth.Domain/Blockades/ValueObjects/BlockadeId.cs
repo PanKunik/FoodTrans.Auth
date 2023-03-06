@@ -14,6 +14,9 @@ public sealed class BlockadeId : ValueObject
     public static BlockadeId CreateUnique()
         => new(Guid.NewGuid());
 
+    public static BlockadeId CreateFrom(Guid data)
+        => new(data);
+
     public override IEnumerable<object> GetEqualityComponents()
     {
         yield return Value;

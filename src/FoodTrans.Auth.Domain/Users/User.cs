@@ -19,6 +19,8 @@ public sealed class User : AggregateRoot<UserId>
 
     public BlockadeId? CurrentBlockadeId { get; }
 
+    private User() { }
+
     private User(
         UserId id,
         Email email,
@@ -27,12 +29,8 @@ public sealed class User : AggregateRoot<UserId>
         LastName lastName,
         Password password,
         Active active,
-        LastLogin lastLogin,
-        DateTime createdAt,
-        UserId createdBy,
-        DateTime? lastModificationDate,
-        UserId? lastModifiedBy)
-    : base(id)
+        LastLogin lastLogin)
+        : base(id)
     {
         Email = email;
         Username = username;
@@ -41,10 +39,6 @@ public sealed class User : AggregateRoot<UserId>
         Password = password;
         Active = active;
         LastLogin = lastLogin;
-        CreatedAt = createdAt;
-        CreatedBy = createdBy;
-        LastModificationDate = lastModificationDate;
-        LastModifiedBy = lastModifiedBy;
     }
 
     public static ErrorOr<User> Create(
@@ -62,11 +56,7 @@ public sealed class User : AggregateRoot<UserId>
             lastName,
             password,
             Active.Create(true),
-            LastLogin.CreateEmpty(),
-            DateTime.UtcNow,
-            UserId.CreateUnique(),
-            null,
-            null);
+            LastLogin.CreateEmpty());
     }
 
     public bool IsBlocked()

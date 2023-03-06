@@ -72,7 +72,7 @@ internal sealed class UserConfiguration : IEntityTypeConfiguration<User>
 
         builder
             .Property(x => x.CurrentBlockadeId)
-            .HasConversion(x => x.Value, x => BlockadeId.CreateUnique());
+            .HasConversion(x => x.Value, x => BlockadeId.CreateFrom(x));
 
         builder
             .Property(x => x.CreatedAt)

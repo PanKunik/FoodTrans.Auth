@@ -10,6 +10,8 @@ public sealed class Blockade : AggregateRoot<BlockadeId>
     public BlockadeRelease BlockadeRelease { get; private set; }
     public BlockadeReason BlockadeReason { get; private set; }
 
+    private Blockade() { }
+
     private Blockade(
         BlockadeId id,
         BlockedAt blockedAt,

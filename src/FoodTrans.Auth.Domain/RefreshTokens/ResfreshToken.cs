@@ -12,26 +12,20 @@ public sealed class RefreshToken : AggregateRoot<RefreshTokenId>
     public UserId UserId { get; }
     public WasUsed WasUsed { get; }
 
+    private RefreshToken() { }
+
     private RefreshToken(
         RefreshTokenId id,
         Token token,
         ExpiresAt expiresAt,
         UserId userId,
-        WasUsed wasUsed,
-        DateTime createdAt,
-        UserId createdBy,
-        DateTime? lastModificationDate,
-        UserId? lastModifiedBy)
+        WasUsed wasUsed)
         : base(id)
     {
         Token = token;
         ExpiresAt = expiresAt;
         UserId = userId;
         WasUsed = wasUsed;
-        CreatedAt = createdAt;
-        CreatedBy = createdBy;
-        LastModificationDate = lastModificationDate;
-        LastModifiedBy = lastModifiedBy;
     }
 
     public static ErrorOr<RefreshToken> Create(
@@ -44,11 +38,7 @@ public sealed class RefreshToken : AggregateRoot<RefreshTokenId>
             token,
             expiresAt,
             userId,
-            false,
-            DateTime.UtcNow,
-            UserId.CreateUnique(),
-            null,
-            null);
+            false);
     }
 
     public void Use()

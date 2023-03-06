@@ -1,6 +1,5 @@
 using Domain.Blockades;
 using Domain.Blockades.ValueObjects;
-using Domain.Users;
 using Domain.Users.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -17,7 +16,7 @@ internal sealed class BlockadeConfiguration : IEntityTypeConfiguration<Blockade>
         builder
             .Property(x => x.Id)
             .IsRequired()
-            .HasConversion(x => x.Value, _ => BlockadeId.CreateUnique());
+            .HasConversion(x => x.Value, x => BlockadeId.CreateFrom(x));
 
         builder
             .Property(x => x.BlockedAt)
@@ -39,11 +38,11 @@ internal sealed class BlockadeConfiguration : IEntityTypeConfiguration<Blockade>
 
         builder
             .Property(x => x.CreatedBy)
-            .HasConversion(x => x.Value, _ => UserId.CreateUnique())
+            .HasConversion(x => x.Value, x => UserId.CreateFrom(x))
             .IsRequired();
 
         builder
             .Property(x => x.LastModifiedBy)
-            .HasConversion(x => x == null ? Guid.Empty : x.Value, _ => UserId.CreateUnique());
+            .HasConversion(x => x == null ? Guid.Empty : x.Value, x => UserId.CreateFrom(x));
     }
 }
